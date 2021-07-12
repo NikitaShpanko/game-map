@@ -30,7 +30,7 @@ imgSmall.addEventListener('load', () => {
     canvasMap.width = canvasWidth;
     canvasMap.height = canvasHeight;
     loadSmall();
-})
+});
 
 imgLarge.addEventListener('load', () => {
     mapWidth = imgLarge.naturalWidth;
@@ -44,7 +44,7 @@ imgLarge.addEventListener('load', () => {
         return;
     }
     loadLarge();
-})
+});
 
 canvasMap.addEventListener('click', e => {
     if (isLarge) return;
@@ -56,56 +56,42 @@ canvasMap.addEventListener('click', e => {
         imgLarge.loading = 'eager'
     } else
         loadLarge();
-})
+});
 
 const pLog = document.getElementById('log');
 
-canvasMap.addEventListener('mousedown', e => {
-    isDragging = isLarge;
-})
+canvasMap.addEventListener('mousedown', dragStart);
 
-canvasMap.addEventListener('mouseup', () => {
-    isDragging = false;
-})
+canvasMap.addEventListener('mouseup', dragStop);
 
-canvasMap.addEventListener('mouseout', () => {
-    isDragging = false;
-})
+canvasMap.addEventListener('mouseout', dragStop);
 
 canvasMap.addEventListener('mousemove', e => {
-    if (!isDragging) return;
-    smallMapX -= e.movementX / coeffX;
-    smallMapY -= e.movementY / coeffY;
-    loadLarge();
-})
+    if (isDragging)
+        dragMove(e.movementX, e.movementY);
+});
 
 let touchX = 0;
 let touchY = 0;
 
 canvasMap.addEventListener('touchstart', e => {
-    touchX = e.touches[0].clientX;
-    touchY = e.touches[0].clientY;
-    //pLog.innerHTML += 'touchstart<br>';
-    isDragging = isLarge;
-})
+    if (dragStart()) {
+        touchX = e.touches[0].clientX;
+        touchY = e.touches[0].clientY;
+    }
+});
 
 canvasMap.addEventListener('touchmove', e => {
     //pLog.innerHTML = `${e.touches[0].clientX - touchX} ${e.touches[0].clientY - touchY}`;
-    if (isDragging && e.touches.length === 1) {
-        e.preventDefault();
-        smallMapX -= (e.touches[0].clientX - touchX) / coeffX;
-        smallMapY -= (e.touches[0].clientY - touchY) / coeffY;
-        loadLarge();
-    }
+    if (!(isDragging && e.touches.length === 1)) return;
+
+    e.preventDefault();
+    dragMove(e.touches[0].clientX - touchX, e.touches[0].clientY - touchY);
     touchX = e.touches[0].clientX;
     touchY = e.touches[0].clientY;
-    //pLog.innerHTML += 'touchmove<br>';
-})
+});
 
-canvasMap.addEventListener('touchend', e => {
-    //pLog.innerHTML += 'touchend<br>';
-    isDragging = false;
-})
+canvasMap.addEventListener('touchend', dragStop);
 
 document.getElementById('small').addEventListener('click', loadSmall);
 
@@ -126,4 +112,18 @@ function loadLarge() {
     ctx.drawImage(imgLarge, largeMapX - canvasWidth / 2, largeMapY - canvasHeight / 2, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
     isLarge = true;
     canvasMap.style = 'cursor: grab;';
+}
+
+function dragStart() {
+    return isDragging = isLarge;
+}
+
+function dragMove(movementX, movementY) {
+    smallMapX -= movementX / coeffX;
+    smallMapY -= movementY / coeffY;
+    loadLarge();
+}
+
+function dragStop() {
+    isDragging = false;
 }
