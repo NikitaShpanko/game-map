@@ -60,8 +60,7 @@ canvasMap.addEventListener('click', e => {
     smallMapX = e.offsetX;
     smallMapY = e.offsetY;
     if (imgLarge.loading !== 'eager') {
-        ctx.fillStyle = "rgba(0, 0, 0, .5)";
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        drawOverlay();
         imgLarge.loading = 'eager'
     } else
         loadLarge();
@@ -136,4 +135,13 @@ function dragMove(movementX, movementY) {
 
 function dragStop() {
     isDragging = false;
+}
+
+function drawOverlay() {
+    ctx.fillStyle = "rgba(0, 0, 0, .5)";
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = '50px serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Loading...', canvasWidth / 2, canvasHeight / 2);
 }
