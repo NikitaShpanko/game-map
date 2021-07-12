@@ -56,13 +56,13 @@ const pLog = document.getElementById('log');
 
 canvasMap.addEventListener('mousedown', e => {
     //e.preventDefault();
-    pLog.innerHTML += 'mousedown<br>';
+    //pLog.innerHTML += 'mousedown<br>';
     isDragging = isLarge;
 })
 
 canvasMap.addEventListener('mouseup', () => {
     //e.preventDefault();
-    pLog.innerHTML += 'mouseup<br>';
+    //pLog.innerHTML += 'mouseup<br>';
     isDragging = false;
 })
 
