@@ -79,6 +79,34 @@ canvasMap.addEventListener('mousemove', e => {
     loadLarge();
 })
 
+let touchX = 0;
+let touchY = 0;
+
+canvasMap.addEventListener('touchstart', e => {
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+    //pLog.innerHTML += 'touchstart<br>';
+    isDragging = isLarge;
+})
+
+canvasMap.addEventListener('touchmove', e => {
+    //pLog.innerHTML = `${e.touches[0].clientX - touchX} ${e.touches[0].clientY - touchY}`;
+    if (isDragging && e.touches.length === 1) {
+        e.preventDefault();
+        smallMapX -= (e.touches[0].clientX - touchX) / coeffX;
+        smallMapY -= (e.touches[0].clientY - touchY) / coeffY;
+        loadLarge();
+    }
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+    //pLog.innerHTML += 'touchmove<br>';
+})
+
+canvasMap.addEventListener('touchend', e => {
+    //pLog.innerHTML += 'touchend<br>';
+    isDragging = false;
+})
+
 document.getElementById('small').addEventListener('click', loadSmall);
 
 function loadSmall() {
