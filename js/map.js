@@ -33,11 +33,16 @@ imgSmall.addEventListener('load', () => {
 })
 
 imgLarge.addEventListener('load', () => {
-    if (imgLarge.loading === 'lazy') return;
     mapWidth = imgLarge.naturalWidth;
     mapHeight = imgLarge.naturalHeight;
     coeffX = mapWidth / canvasWidth;
     coeffY = mapHeight / canvasHeight;
+
+    // this may happen on reloading
+    if (imgLarge.loading === 'lazy') {
+        imgLarge.loading = 'eager';
+        return;
+    }
     loadLarge();
 })
 
