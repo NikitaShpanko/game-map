@@ -13,7 +13,6 @@ let mapWidth = 0;
 let mapHeight = 0;
 
 const imgSmall = new Image();
-//imgSmall.addEventListener('load', e => { console.log(`${imgSmall.src} loaded`) });
 imgSmall.src = './images/D20-small.jpg';
 
 const imgLarge = new Image();
@@ -55,34 +54,22 @@ canvasMap.addEventListener('click', e => {
 const pLog = document.getElementById('log');
 
 canvasMap.addEventListener('mousedown', e => {
-    //e.preventDefault();
-    //pLog.innerHTML += 'mousedown<br>';
     isDragging = isLarge;
 })
 
 canvasMap.addEventListener('mouseup', () => {
-    //e.preventDefault();
-    //pLog.innerHTML += 'mouseup<br>';
+    isDragging = false;
+})
+
+canvasMap.addEventListener('mouseout', () => {
     isDragging = false;
 })
 
 canvasMap.addEventListener('mousemove', e => {
-    //pLog.innerHTML = e.buttons;
-    //pLog.innerHTML += 'mousemove<br>';
-    //e.preventDefault();
     if (!isDragging) return;
-    //const deltaX = Math.round(e.movementX / coeffX);
-    //const deltaY = Math.round(e.movementY / coeffY);
-    //if (deltaX || deltaY) {
-    //    smallMapX += deltaX;
-    //    smallMapY += deltaY;
-    //    loadLarge()
-    //}
     smallMapX -= e.movementX / coeffX;
     smallMapY -= e.movementY / coeffY;
     loadLarge();
-    //pLog.innerHTML = `${e.movementX} ${e.movementY}`
-    //console.log(e.movementX, ' ', e.movementY)
 })
 
 document.getElementById('small').addEventListener('click', loadSmall);
@@ -104,5 +91,4 @@ function loadLarge() {
     ctx.drawImage(imgLarge, largeMapX - canvasWidth / 2, largeMapY - canvasHeight / 2, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
     isLarge = true;
     canvasMap.style = 'cursor: grab;';
-    //console.log(`${smallMapX} ${smallMapY}, ${largeMapX} ${largeMapY}`)
 }
