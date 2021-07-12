@@ -21,7 +21,6 @@ imgLarge.loading = 'lazy';
 imgLarge.src = './images/D20.jpg';
 
 const canvasMap = document.getElementById('map');
-console.log(canvasMap)
 
 const ctx = canvasMap.getContext('2d');
 
