@@ -16,7 +16,7 @@ const imgSmall = new Image();
 imgSmall.src = './images/D20-small.jpg';
 
 const imgLarge = new Image();
-imgLarge.addEventListener('load', e => { console.log(`${imgLarge.src} loaded`) });
+//imgLarge.addEventListener('load', e => { console.log(`${imgLarge.src} loaded`) });
 imgLarge.loading = 'lazy';
 imgLarge.src = './images/D20.jpg';
 
