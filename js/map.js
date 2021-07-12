@@ -45,9 +45,11 @@ canvasMap.addEventListener('click', e => {
     if (isLarge) return;
     smallMapX = e.offsetX;
     smallMapY = e.offsetY;
-    if (imgLarge.loading !== 'eager')
+    if (imgLarge.loading !== 'eager') {
+        ctx.fillStyle = "rgba(0, 0, 0, .5)";
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
         imgLarge.loading = 'eager'
-    else
+    } else
         loadLarge();
 })
 
