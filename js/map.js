@@ -11,6 +11,10 @@ let smallMapX = 0;
 let smallMapY = 0;
 let mapWidth = 0;
 let mapHeight = 0;
+let minSmallX = 0;
+let minSmallY = 0;
+let maxSmallX = 0;
+let maxSmallY = 0;
 
 const imgSmall = new Image();
 imgSmall.src = './images/D20-small.jpg';
@@ -37,6 +41,11 @@ imgLarge.addEventListener('load', () => {
     mapHeight = imgLarge.naturalHeight;
     coeffX = mapWidth / canvasWidth;
     coeffY = mapHeight / canvasHeight;
+
+    minSmallX = canvasWidth / 2 / coeffX;
+    minSmallY = canvasHeight / 2 / coeffY;
+    maxSmallX = canvasWidth - minSmallX;
+    maxSmallY = canvasHeight - minSmallY;
 
     // this may happen on reloading
     if (imgLarge.loading === 'lazy') {
@@ -102,12 +111,13 @@ function loadSmall() {
 }
 
 function loadLarge() {
-    let largeMapX = smallMapX * coeffX;
-    let largeMapY = smallMapY * coeffY;
-    if (largeMapX < canvasWidth / 2) largeMapX = canvasWidth / 2;
-    if (largeMapY < canvasHeight / 2) largeMapY = canvasHeight / 2;
-    if (largeMapX > mapWidth - canvasWidth / 2) largeMapX = mapWidth - canvasWidth / 2;
-    if (largeMapY > mapHeight - canvasHeight / 2) largeMapY = mapHeight - canvasHeight / 2;
+    if (smallMapX < minSmallX) smallMapX = minSmallX;
+    if (smallMapY < minSmallY) smallMapY = minSmallY;
+    if (smallMapX > maxSmallX) smallMapX = maxSmallX;
+    if (smallMapY > maxSmallY) smallMapY = maxSmallY;
+
+    const largeMapX = smallMapX * coeffX;
+    const largeMapY = smallMapY * coeffY;
 
     ctx.drawImage(imgLarge, largeMapX - canvasWidth / 2, largeMapY - canvasHeight / 2, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
     isLarge = true;
