@@ -34,6 +34,7 @@ imgSmall.addEventListener('load', () => {
 })
 
 imgLarge.addEventListener('load', () => {
+    if (imgLarge.loading === 'lazy') return;
     mapWidth = imgLarge.naturalWidth;
     mapHeight = imgLarge.naturalHeight;
     coeffX = mapWidth / canvasWidth;
